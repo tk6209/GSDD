@@ -1,7 +1,6 @@
 # GSDD
-Governed Specification-Driven Development Protocol
 ---
-# GSDD: Governed Specification-Driven Development 🛡️
+# GSDD: Governed Specification-Driven Development 
 
 [**English**](#english) | [**Português**](#português)
 
