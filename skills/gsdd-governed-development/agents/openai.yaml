@@ -1,0 +1,4 @@
+interface:
+  display_name: "GSDD Governed Development (Experimental)"
+  short_description: "Experimental GSDD execution governance guard"
+  default_prompt: "Use $gsdd-governed-development to enforce SPEC-driven execution rules."
