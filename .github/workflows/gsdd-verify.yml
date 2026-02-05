@@ -1,0 +1,46 @@
+name: GSDD Snapshot Verification
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags:
+      - 'v*'
+
+jobs:
+  verify-gsdd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify GSDD Snapshots
+        env:
+          CI: true
+          GSDD_HMAC_KEY: ${{ secrets.GSDD_HMAC_KEY }}
+        run: |
+          set -e
+
+          MODE="warn"
+
+          # Strict rules:
+          # - push to main
+          # - any tag (release)
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            MODE="strict"
+          fi
+
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            MODE="strict"
+          fi
+
+          echo "🔐 GSDD verification mode: ${MODE^^}"
+          echo "🔎 Git ref: ${GITHUB_REF}"
+          echo "------------------------------------------"
+
+          for f in *.md; do
+            if grep -q "GSDD::OFFICIAL_SNAPSHOT" "$f"; then
+              echo "🔍 Verifying snapshot: $f"
+              ./scripts/gsdd-verify-snapshot.sh --${MODE} "$f"
+            fi
+          done
