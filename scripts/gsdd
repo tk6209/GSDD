@@ -35,9 +35,8 @@ verify_spec() {
     exit 2
   fi
 
-  # Required fields (as headings). We accept both "## X" and "# X" and any level.
-  # Aliases cover EN/PT and common variations.
-  local -a required_keys=(
+  # Required canonical sections
+  required_keys=(
     "scope"
     "objective"
     "inputs"
@@ -45,30 +44,33 @@ verify_spec() {
     "expected outcome"
   )
 
-  # Aliases map: canonical -> regex alternatives
-  # Note: keep this strict; do not infer missing content.
-  declare -A alias
-  alias["scope"]="scope|escopo"
-  alias["objective"]="objective|objetivo"
-  alias["inputs"]="inputs|input|entradas"
-  alias["constraints"]="constraints|constraint|restri(c|ç)ões|restricoes"
-  alias["expected outcome"]="expected outcome|expected results?|outcome|resultado esperado|resultados esperados"
-
   # Read file once
-  local content
   content="$(cat "$file")"
 
-  # Track missing
-  local -a missing=()
+  missing=()
 
   for key in "${required_keys[@]}"; do
-    local re="${alias[$key]}"
-    # Match markdown heading with that key
-    # Examples:
-    #   ## Scope
-    #   ### Objective
-    #   # Expected Outcome
-    if ! printf "%s\n" "$content" | LC_ALL=C grep -Eiq '^[[:space:]]{0,3}#{1,6}[[:space:]]+('"$re"')[[:space:]]*$'; then
+    case "$key" in
+      "scope")
+        re="scope|escopo"
+        ;;
+      "objective")
+        re="objective|objetivo"
+        ;;
+      "inputs")
+        re="inputs|input|entradas"
+        ;;
+      "constraints")
+        re="constraints|constraint|restri(c|ç)ões|restricoes"
+        ;;
+      "expected outcome")
+        re="expected outcome|expected results?|outcome|resultado esperado|resultados esperados"
+        ;;
+    esac
+
+    if ! printf "%s\n" "$content" | LC_ALL=C grep -Eiq \
+      '^[[:space:]]{0,3}#{1,6}[[:space:]]+('"$re"')([[:space:]]*/[[:space:]]*('"$re"'))?[[:space:]]*$'
+    then
       missing+=("$key")
     fi
   done
@@ -79,46 +81,7 @@ verify_spec() {
       echo "  - $m"
     done
     echo
-    echo "STOP: Execution is forbidden without a valid SPEC."
-    exit 1
-  fi
-
-  # Optional: verify headings contain some body text after them (basic, still structure-only).
-  # We do not parse semantics, only ensure each required section has at least 1 non-empty line beneath it.
-  local fail_body=0
-  for key in "${required_keys[@]}"; do
-    local re="${alias[$key]}"
-    # Extract block after heading until next heading.
-    # This is conservative and avoids complex parsing.
-    block="$(python3 - <<PY
-import re,sys
-text=open("$file","r",encoding="utf-8",errors="ignore").read().splitlines()
-pattern=re.compile(r'^[ \\t]{0,3}#{1,6}[ \\t]+(' + r"$re" + r')[ \\t]*$', re.I)
-start=None
-for i,line in enumerate(text):
-    if pattern.match(line):
-        start=i+1
-        break
-if start is None:
-    print("")
-    sys.exit(0)
-out=[]
-for j in range(start,len(text)):
-    if re.match(r'^[ \\t]{0,3}#{1,6}[ \\t]+', text[j]):
-        break
-    out.append(text[j])
-print("\\n".join(out).strip())
-PY
-)"
-    if [[ -z "${block//[[:space:]]/}" ]]; then
-      echo "❌ SPEC INVALID (empty section): $key"
-      fail_body=1
-    fi
-  done
-
-  if [[ "$fail_body" -eq 1 ]]; then
-    echo
-    echo "STOP: SPEC sections must not be empty."
+    echo "STOP: Execution is forbidden by GSDD without a valid SPEC."
     exit 1
   fi
 
