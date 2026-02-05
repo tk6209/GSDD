@@ -1,31 +1,30 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-echo "GSDD — HISTORY NORMALIZATION (GUIDED)"
+cat <<'DOC'
+📐 GSDD — HISTORY NORMALIZATION (GUIDED)
 
-cat << 'DOC'
-This process CANNOT be automated safely.
+This process MUST NOT be automated.
+Semantic separation requires human intent.
 
 Goal:
-Split the bootstrap commit into semantic commits:
+Split a large bootstrap commit into semantic commits, for example:
+1) core            → gsdd_core.md, integrity.md
+2) execution       → execution_flow.md, method/*
+3) spec            → spec_contract.md, docs/terminology.md
+4) audit/trace     → auditability.md, traceability.md, assurance.md
 
-1. core            → gsdd_core.md, integrity.md
-2. execution       → execution_flow.md, method/*
-3. spec            → spec_contract.md, docs/terminology.md
-4. audit/trace     → auditability.md, traceability.md, assurance.md
+Procedure:
+1) Inspect history:
+   git log --oneline --decorate -n 20
 
-Recommended procedure:
-
-1) Identify how many commits to rewrite:
-   git log --oneline
-
-2) Start interactive rebase:
+2) Start interactive rebase (choose N):
    git rebase -i HEAD~N
 
-3) Mark the bootstrap commit as:
+3) Mark the target commit as:
    edit
 
-4) During rebase, split commits manually:
+4) Split during rebase:
    git reset HEAD^
    git add <files>
    git commit -m "core: establish GSDD core law"
@@ -36,13 +35,10 @@ Recommended procedure:
    git add <files>
    git commit -m "audit: add auditability and traceability"
 
-5) Continue rebase:
+5) Continue:
    git rebase --continue
 
 STOP CONDITIONS:
-- If unsure about semantic grouping → ABORT
+- If unsure about semantic grouping → ABORT (git rebase --abort)
 - If conflicts arise → RESOLVE manually, never force
-
-This is a GOVERNANCE operation.
-Human intent is mandatory.
 DOC
