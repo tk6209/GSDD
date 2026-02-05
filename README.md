@@ -2,8 +2,8 @@
 
 ![GSDD Version](https://img.shields.io/badge/GSDD-v0.1.0-blue)
 
-> **Without governance, AI scales bugs.  
-> With governance, it scales systems.**
+> **Without governance, AI scales bugs.**  
+> **With governance, it scales systems.**
 
 ---
 
@@ -20,9 +20,10 @@
 **GSDD (Governed Specification-Driven Development)** is an open method for AI-assisted software development that enforces **explicit governance over execution**.
 
 It transforms AI from an improvisational code generator into a **bounded executor**, operating strictly within:
-- explicit specifications
-- declared architectural boundaries
-- verifiable execution rules
+
+- explicit specifications  
+- declared architectural boundaries  
+- verifiable execution rules  
 
 GSDD does not optimize for speed.  
 It optimizes for **trust, auditability, and predictability**.
@@ -58,10 +59,11 @@ Common systemic anti-patterns:
 > **No contract, no execution.**
 
 In GSDD:
-- humans define intent, scope, and limits
-- AI executes only after governance is validated
-- verification is mandatory
-- aborting invalid execution is considered success
+
+- humans define intent, scope, and limits  
+- AI executes only after governance is validated  
+- verification is mandatory  
+- aborting invalid execution is considered success  
 
 ---
 
@@ -69,30 +71,16 @@ In GSDD:
 
 Execution is only valid when **all steps are followed**:
 
-1. **Declare Scope**  
-   A single, bounded, explicit scope.
-
-2. **Declare SPEC**  
-   A written, testable specification aligned to the scope.
-
-3. **Validate SPEC**  
-   Structural validation against the SPEC contract.
-
-4. **Authorize Execution**  
-   Explicit transition from governance to action.
-
-5. **Execute**  
-   Atomic execution within declared boundaries only.
-
-6. **Verify Outcome & Commit**  
-   Results must satisfy the SPEC.  
-   Invalid outcomes **must not be committed**.
-
-7. **Terminate Execution**  
-   No continuation without restarting the flow.
+1. **Declare Scope** — a single, bounded, explicit scope  
+2. **Declare SPEC** — written, testable specification  
+3. **Validate SPEC** — structural validation against the contract  
+4. **Authorize Execution** — explicit governance approval  
+5. **Execute** — atomic execution within declared boundaries  
+6. **Verify Outcome & Commit** — invalid outcomes **must not be committed**  
+7. **Terminate Execution** — no continuation without restart  
 
 This flow is **mandatory**.  
-Deviation invalidates the execution.
+Any deviation invalidates the execution.
 
 ---
 
@@ -100,17 +88,18 @@ Deviation invalidates the execution.
 
 GSDD guarantees:
 
-- Explicit governance before execution
-- Architecture treated as law, not convention
-- Deterministic execution boundaries
-- Auditability and traceability
-- Safe aborts instead of silent failure
+- explicit governance before execution  
+- architecture treated as law, not convention  
+- deterministic execution boundaries  
+- auditability and traceability  
+- safe aborts instead of silent failure  
 
 GSDD explicitly does **not** provide:
-- auto-fix
-- auto-healing
-- speculative execution
-- implicit scope expansion
+
+- auto-fix  
+- auto-healing  
+- speculative execution  
+- implicit scope expansion  
 
 ---
 
@@ -123,16 +112,16 @@ GSDD includes a **governed command-line interface**.
 ./scripts/gsdd verify <spec.md>
 ./scripts/gsdd snapshot
 ./scripts/gsdd audit
-Guarantees
-Structure-only validation
+CLI Guarantees
+structure-only validation
 
-No auto-fix
+no auto-fix
 
-No auto-healing
+no auto-healing
 
-No SPEC mutation
+no SPEC mutation
 
-Deterministic pass / fail
+deterministic pass / fail
 
 Only verify is normative in v0.1.0.
 Other commands are placeholders by design.
@@ -201,7 +190,7 @@ Aceitar código porque “parece certo”.
 O problema não é a IA.
 É a execução não governada.
 
-O Princípio do GSDD
+Princípio do GSDD
 Sem contrato, sem execução.
 
 No GSDD:
@@ -214,37 +203,18 @@ verificação é obrigatória
 
 abortar execução inválida é sucesso operacional
 
-Fluxo de Execução do GSDD
-A execução só é válida quando todas as etapas são seguidas:
-
-Declarar Escopo
-
-Declarar SPEC
-
-Validar SPEC
-
-Autorizar Execução
-
-Executar
-
-Verificar Resultado e Commitar
-
-Encerrar Execução
-
-Qualquer desvio invalida a execução.
-
 Garantias Fundamentais
 O GSDD garante:
 
-Governança explícita antes da execução
+governança explícita antes da execução
 
-Arquitetura tratada como lei
+arquitetura tratada como lei
 
-Limites determinísticos
+limites determinísticos
 
-Auditabilidade e rastreabilidade
+auditabilidade e rastreabilidade
 
-Abortos seguros
+abortos seguros
 
 O GSDD não oferece:
 
@@ -256,32 +226,35 @@ execução especulativa
 
 expansão implícita de escopo
 
-CLI (Bootstrap)
-O GSDD inclui uma interface de linha de comando governada.
+FAQ — Frequently Asked Questions
+❓ Is GSDD available via pip, pip3, or Homebrew?
+No. Not yet.
 
-./scripts/gsdd verify <spec.md>
-Garantias
-Validação apenas estrutural
+GSDD is intentionally not distributed via package managers in v0.1.x.
 
-Sem auto-fix
+GSDD is a method first, not a tool-first product.
+Packaging it too early would create incorrect expectations.
 
-Sem auto-healing
+The repository distribution ensures users:
 
-Sem mutação de SPEC
+read the method
 
-Aprovação/reprovação determinística
+understand the contracts
 
-Apenas verify é normativo no v0.1.0.
-Os demais comandos são placeholders por design.
+adopt governance consciously
 
-Status
-Versão: v0.1.0
+❓ When will it be packaged?
+Only after semantic closure, no earlier than v1.0.0.
+See ROADMAP.md.
 
-Método: Estável (bootstrap)
+FAQ — Perguntas Frequentes (Português)
+❓ O GSDD está disponível via pip ou Homebrew?
+Não. Ainda não.
 
-CLI: Publicado
+Isso é intencional.
 
-verify: Normativo
+O GSDD é um método primeiro, não uma ferramenta pronta.
+Empacotamento virá apenas após fechamento semântico (v1.0.0).
 
 Final Note
 GSDD is not defined by tools.
@@ -292,4 +265,3 @@ and evidence-based accountability.
 
 Created by Vinicius Teixeira
 Governed Specification-Driven Development — Open Method
-
