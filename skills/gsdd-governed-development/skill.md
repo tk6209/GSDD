@@ -1,12 +1,16 @@
 ---
 name: gsdd-governed-development
-description: Enforce Governed Specification-Driven Development (GSDD) execution: require explicit SPEC, stop on ambiguity, audit outcome before commit, forbid auto-healing, and apply ABORT semantics when governance is violated.
+description: "Enforce Governed Specification-Driven Development (GSDD) execution: require explicit SPEC, stop on ambiguity, audit outcome before commit, forbid auto-healing, and apply ABORT semantics when governance is violated."
 ---
 
 # GSDD — Governed Development Skill
 
 Enforce the GSDD governed execution model.
 Do not negotiate governance. Do not improvise execution.
+
+## Status
+
+Experimental.
 
 ## Mandatory Rules
 
@@ -53,8 +57,8 @@ ABORT ends the execution permanently.
 ## Execution Reminder
 
 Follow the execution order defined in:
-- GSDD_CORE.md
-- EXECUTION_FLOW.md
-- SPEC_CONTRACT.md
+- gsdd_core.md
+- execution_flow.md
+- spec_contract.md
 
 This skill enforces. It does not negotiate.
