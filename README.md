@@ -1,146 +1,295 @@
 # GSDD — Governed Specification-Driven Development
 
-> **“Without governance, AI scales bugs.  
-> With governance, it scales systems.”**
+![GSDD Version](https://img.shields.io/badge/GSDD-v0.1.0-blue)
 
-GSDD is a **governed execution method** for AI-assisted development.
-It transforms AI output into **auditable, deterministic, and contract-bound execution**, eliminating improvisation, silent failures, and uncontrolled scope expansion.
-
-GSDD is **tool-agnostic**, **agent-agnostic**, and has been **validated in real production pipelines** through multiple epics and pull requests with zero merge conflicts.
+> **Without governance, AI scales bugs.  
+> With governance, it scales systems.**
 
 ---
 
-## Why GSDD Exists
+## English | Português  
+[English](#english) · [Português](#português)
 
-AI-assisted development fails not because models are weak, but because **execution is unguided**.
+---
 
-Common systemic failures include:
+<a name="english"></a>
+## English
+
+### What is GSDD?
+
+**GSDD (Governed Specification-Driven Development)** is an open method for AI-assisted software development that enforces **explicit governance over execution**.
+
+It transforms AI from an improvisational code generator into a **bounded executor**, operating strictly within:
+- explicit specifications
+- declared architectural boundaries
+- verifiable execution rules
+
+GSDD does not optimize for speed.  
+It optimizes for **trust, auditability, and predictability**.
+
+---
+
+### The Core Problem
+
+AI coding failures are **not model failures**.  
+They are **governance failures**.
+
+Common systemic anti-patterns:
 
 - **Context Drift**  
-  Accumulated noise across long sessions contaminates decisions.
+  Long sessions silently degrade intent and correctness.
 
 - **Implicit Specification Fallacy**  
-  Assuming the model “understands” intent without a contract.
+  Assuming “the AI understood” without an explicit contract.
 
 - **Execution Bleed**  
-  Side changes silently escape the intended scope.
+  One task leaking into another, contaminating scope.
 
 - **Conversational Authority**  
-  Code is accepted because it sounds plausible, not because it is correct.
+  Accepting output because it *sounds right*, not because it is verifiable.
 
-GSDD addresses these failures **by design**, not by discipline.
-
----
-
-## What GSDD Is (and Is Not)
-
-### GSDD **is**
-- A **method**, not a prompt
-- A **governed execution model**, not auto-completion
-- **Specification-first**, not conversation-first
-- **Audit-driven**, not trial-and-error
-- Designed for **serious systems**, teams, and long-lived codebases
-
-### GSDD **is not**
-- A framework
-- A coding assistant
-- A self-healing loop
-- A Git workflow trick
-- Dependent on any specific AI tool
+> The problem is not AI capability.  
+> The problem is **ungoverned execution**.
 
 ---
 
-## Core Execution Model (High Level)
+### The GSDD Principle
 
-At its core, GSDD enforces a **strict execution ritual**:
+> **No contract, no execution.**
+
+In GSDD:
+- humans define intent, scope, and limits
+- AI executes only after governance is validated
+- verification is mandatory
+- aborting invalid execution is considered success
+
+---
+
+### The GSDD Execution Flow
+
+Execution is only valid when **all steps are followed**:
 
 1. **Declare Scope**  
-   A single, bounded execution scope is explicitly defined.
+   A single, bounded, explicit scope.
 
-2. **Declare and Validate a SPEC**  
-   Execution is authorized only by a complete, unambiguous specification.
+2. **Declare SPEC**  
+   A written, testable specification aligned to the scope.
 
-3. **Authorize Execution**  
-   Governance explicitly transitions into execution.
+3. **Validate SPEC**  
+   Structural validation against the SPEC contract.
 
-4. **Execute Once, Atomically**  
-   1 task · 1 context · 1 branch · 1 execution · 1 commit.
+4. **Authorize Execution**  
+   Explicit transition from governance to action.
 
-5. **Audit the Outcome**  
-   Results are verified against the SPEC.  
-   Audit failure forbids commit.
+5. **Execute**  
+   Atomic execution within declared boundaries only.
 
-6. **Commit or Terminate**  
-   If rules are violated, aborting is a success — not a failure.
+6. **Verify Outcome & Commit**  
+   Results must satisfy the SPEC.  
+   Invalid outcomes **must not be committed**.
 
-This ritual is fully defined in the method’s normative documents.
+7. **Terminate Execution**  
+   No continuation without restarting the flow.
 
----
-
-## Foundational Principles
-
-- **Specifications are contracts**  
-  No contract, no execution.
-
-- **Context is disposable**  
-  Every execution starts from an explicit, minimal context.
-
-- **Execution is finite**  
-  No silent retries. No hidden loops.
-
-- **Audit precedes acceptance**  
-  Outcomes are verified before they are committed.
-
-- **Correction means re-execution**  
-  Fixing requires a new SPEC and a new execution.
+This flow is **mandatory**.  
+Deviation invalidates the execution.
 
 ---
 
-## Repository Structure
+### Core Guarantees
 
-This repository separates **method**, **documentation**, and **enforcement**:
+GSDD guarantees:
 
-- `GSDD_CORE.md` — The law (what is allowed and forbidden)
-- `EXECUTION_FLOW.md` — The ritual (mandatory sequence)
-- `SPEC_CONTRACT.md` — What constitutes a valid SPEC
-- `/docs` — Informational and explanatory material
-- `/skills` — Optional enforcement layers (Codex, CLI, etc.)
+- Explicit governance before execution
+- Architecture treated as law, not convention
+- Deterministic execution boundaries
+- Auditability and traceability
+- Safe aborts instead of silent failure
 
-The method exists independently of any tooling.
-
----
-
-## Status
-
-GSDD is **actively used and validated**.
-The repository reflects a **crystallized method**, not an experiment.
-
----
-
-## Author
-
-Created and maintained by  
-**Vinicius Teixeira**  
+GSDD explicitly does **not** provide:
+- auto-fix
+- auto-healing
+- speculative execution
+- implicit scope expansion
 
 ---
 
 ## CLI (Bootstrap)
 
-GSDD includes a governed command-line interface.
-
-### Available Commands
+GSDD includes a **governed command-line interface**.
 
 ```bash
+./scripts/gsdd help
 ./scripts/gsdd verify <spec.md>
-```
+./scripts/gsdd snapshot
+./scripts/gsdd audit
+Guarantees
+Structure-only validation
 
-### Guarantees
+No auto-fix
 
-- Structure-only validation
-- No auto-fix
-- No auto-healing
-- No SPEC mutation
-- Deterministic pass / fail
+No auto-healing
 
-Only `verify` is normative in v0.1.0.
+No SPEC mutation
+
+Deterministic pass / fail
+
+Only verify is normative in v0.1.0.
 Other commands are placeholders by design.
+
+The CLI enforces.
+It does not negotiate.
+
+Who is GSDD for?
+GSDD does not require changing your tech stack.
+It requires changing your execution contract.
+
+Solo developers — personal governance and confidence
+
+Small teams — alignment without process bloat
+
+Distributed teams — explicit contracts across contexts
+
+Enterprises — auditability, compliance, and scale
+
+Status
+Version: v0.1.0
+
+Method: Stable (bootstrap)
+
+CLI: Published
+
+verify: Normative
+
+Other commands: Non-operative by design
+
+<a name="português"></a>
+
+Português
+O que é o GSDD?
+GSDD (Governed Specification-Driven Development) é um método aberto para desenvolvimento de software assistido por IA que impõe governança explícita sobre a execução.
+
+Ele transforma a IA de um gerador improvisado de código em um executor limitado, operando estritamente dentro de:
+
+especificações explícitas
+
+limites arquiteturais declarados
+
+regras verificáveis de execução
+
+O GSDD não otimiza velocidade.
+Ele otimiza confiança, auditabilidade e previsibilidade.
+
+O Problema Central
+Falhas no uso de IA não são falhas do modelo.
+São falhas de governança.
+
+Anti-padrões sistêmicos comuns:
+
+Context Drift (Deriva de Contexto)
+Sessões longas degradam intenção e correção.
+
+Falácia da Especificação Implícita
+Assumir que “a IA entendeu” sem contrato explícito.
+
+Execution Bleed (Vazamento de Execução)
+Uma tarefa invade outra e contamina o escopo.
+
+Autoridade Conversacional
+Aceitar código porque “parece certo”.
+
+O problema não é a IA.
+É a execução não governada.
+
+O Princípio do GSDD
+Sem contrato, sem execução.
+
+No GSDD:
+
+humanos definem intenção, escopo e limites
+
+a IA executa apenas após validação da governança
+
+verificação é obrigatória
+
+abortar execução inválida é sucesso operacional
+
+Fluxo de Execução do GSDD
+A execução só é válida quando todas as etapas são seguidas:
+
+Declarar Escopo
+
+Declarar SPEC
+
+Validar SPEC
+
+Autorizar Execução
+
+Executar
+
+Verificar Resultado e Commitar
+
+Encerrar Execução
+
+Qualquer desvio invalida a execução.
+
+Garantias Fundamentais
+O GSDD garante:
+
+Governança explícita antes da execução
+
+Arquitetura tratada como lei
+
+Limites determinísticos
+
+Auditabilidade e rastreabilidade
+
+Abortos seguros
+
+O GSDD não oferece:
+
+auto-fix
+
+auto-healing
+
+execução especulativa
+
+expansão implícita de escopo
+
+CLI (Bootstrap)
+O GSDD inclui uma interface de linha de comando governada.
+
+./scripts/gsdd verify <spec.md>
+Garantias
+Validação apenas estrutural
+
+Sem auto-fix
+
+Sem auto-healing
+
+Sem mutação de SPEC
+
+Aprovação/reprovação determinística
+
+Apenas verify é normativo no v0.1.0.
+Os demais comandos são placeholders por design.
+
+Status
+Versão: v0.1.0
+
+Método: Estável (bootstrap)
+
+CLI: Publicado
+
+verify: Normativo
+
+Final Note
+GSDD is not defined by tools.
+
+It is defined by governed limits,
+explicit contracts,
+and evidence-based accountability.
+
+Created by Vinicius Teixeira
+Governed Specification-Driven Development — Open Method
+
