@@ -1,5 +1,7 @@
 # GSDD Method — Conceptual Reference
 
+![GSDD Version](https://img.shields.io/badge/GSDD-v0.1.0-blue)
+
 ## Purpose
 
 This directory defines the **conceptual foundation** of the GSDD method.

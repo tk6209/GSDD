@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cmd="${1:-help}"
+
+print_help() {
+  cat << 'DOC'
+🛡️  GSDD CLI (bootstrap)
+
+Commands:
+  gsdd verify     Validate a SPEC file against the SPEC contract (structure-only)
+  gsdd snapshot   Create a snapshot artifact (placeholder in bootstrap)
+  gsdd audit      Verify outcome against SPEC (placeholder in bootstrap)
+  gsdd help       Show this help
+
+Rules:
+- The CLI never auto-fixes.
+- The CLI never auto-heals.
+- The CLI never mutates a SPEC.
+- The CLI only verifies, blocks, and records.
+
+DOC
+}
+
+case "$cmd" in
+  help|-h|--help)
+    print_help
+    ;;
+  verify)
+    echo "🔍 verify: TODO (bootstrap) — implement SPEC parsing + contract checks"
+    echo "Hint: require explicit fields: scope, objective, inputs, constraints, expected_outcome"
+    ;;
+  snapshot)
+    echo "📸 snapshot: TODO (bootstrap) — implement immutable snapshot + hash + metadata"
+    ;;
+  audit)
+    echo "🧪 audit: TODO (bootstrap) — implement outcome verification against SPEC"
+    ;;
+  *)
+    echo "❌ Unknown command: $cmd"
+    print_help
+    exit 1
+    ;;
+esac
