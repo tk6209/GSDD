@@ -121,3 +121,26 @@ The repository reflects a **crystallized method**, not an experiment.
 
 Created and maintained by  
 **Vinicius Teixeira**  
+
+---
+
+## CLI (Bootstrap)
+
+GSDD includes a governed command-line interface.
+
+### Available Commands
+
+```bash
+./scripts/gsdd verify <spec.md>
+```
+
+### Guarantees
+
+- Structure-only validation
+- No auto-fix
+- No auto-healing
+- No SPEC mutation
+- Deterministic pass / fail
+
+Only `verify` is normative in v0.1.0.
+Other commands are placeholders by design.
