@@ -20,3 +20,4 @@
 *.signature
 .DS_Store
 .gsdd/state.json
+.DS_Store
