@@ -4,41 +4,145 @@ set -euo pipefail
 cmd="${1:-help}"
 
 print_help() {
-  cat << 'DOC'
-🛡️  GSDD CLI (bootstrap)
+  cat <<'H'
+🛡️  GSDD CLI
 
 Commands:
-  gsdd verify     Validate a SPEC file against the SPEC contract (structure-only)
-  gsdd snapshot   Create a snapshot artifact (placeholder in bootstrap)
-  gsdd audit      Verify outcome against SPEC (placeholder in bootstrap)
-  gsdd help       Show this help
+  gsdd verify <spec.md>     Validate a SPEC file (structure-only) against the GSDD SPEC contract
+  gsdd snapshot             Create a snapshot artifact (placeholder)
+  gsdd audit                Verify outcome against SPEC (placeholder)
+  gsdd help                 Show this help
 
 Rules:
 - The CLI never auto-fixes.
 - The CLI never auto-heals.
 - The CLI never mutates a SPEC.
 - The CLI only verifies, blocks, and records.
+H
+}
 
-DOC
+# Normalize headings (case-insensitive) and accept common aliases.
+# SPEC is expected to be a Markdown document with headings.
+verify_spec() {
+  local file="${1:-}"
+  if [[ -z "$file" ]]; then
+    echo "ERROR: Missing SPEC path."
+    echo "Usage: gsdd verify <spec.md>"
+    exit 2
+  fi
+  if [[ ! -f "$file" ]]; then
+    echo "ERROR: SPEC file not found: $file"
+    exit 2
+  fi
+
+  # Required fields (as headings). We accept both "## X" and "# X" and any level.
+  # Aliases cover EN/PT and common variations.
+  local -a required_keys=(
+    "scope"
+    "objective"
+    "inputs"
+    "constraints"
+    "expected outcome"
+  )
+
+  # Aliases map: canonical -> regex alternatives
+  # Note: keep this strict; do not infer missing content.
+  declare -A alias
+  alias["scope"]="scope|escopo"
+  alias["objective"]="objective|objetivo"
+  alias["inputs"]="inputs|input|entradas"
+  alias["constraints"]="constraints|constraint|restri(c|ç)ões|restricoes"
+  alias["expected outcome"]="expected outcome|expected results?|outcome|resultado esperado|resultados esperados"
+
+  # Read file once
+  local content
+  content="$(cat "$file")"
+
+  # Track missing
+  local -a missing=()
+
+  for key in "${required_keys[@]}"; do
+    local re="${alias[$key]}"
+    # Match markdown heading with that key
+    # Examples:
+    #   ## Scope
+    #   ### Objective
+    #   # Expected Outcome
+    if ! printf "%s\n" "$content" | LC_ALL=C grep -Eiq '^[[:space:]]{0,3}#{1,6}[[:space:]]+('"$re"')[[:space:]]*$'; then
+      missing+=("$key")
+    fi
+  done
+
+  if (( ${#missing[@]} > 0 )); then
+    echo "❌ SPEC INVALID (missing mandatory sections):"
+    for m in "${missing[@]}"; do
+      echo "  - $m"
+    done
+    echo
+    echo "STOP: Execution is forbidden without a valid SPEC."
+    exit 1
+  fi
+
+  # Optional: verify headings contain some body text after them (basic, still structure-only).
+  # We do not parse semantics, only ensure each required section has at least 1 non-empty line beneath it.
+  local fail_body=0
+  for key in "${required_keys[@]}"; do
+    local re="${alias[$key]}"
+    # Extract block after heading until next heading.
+    # This is conservative and avoids complex parsing.
+    block="$(python3 - <<PY
+import re,sys
+text=open("$file","r",encoding="utf-8",errors="ignore").read().splitlines()
+pattern=re.compile(r'^[ \\t]{0,3}#{1,6}[ \\t]+(' + r"$re" + r')[ \\t]*$', re.I)
+start=None
+for i,line in enumerate(text):
+    if pattern.match(line):
+        start=i+1
+        break
+if start is None:
+    print("")
+    sys.exit(0)
+out=[]
+for j in range(start,len(text)):
+    if re.match(r'^[ \\t]{0,3}#{1,6}[ \\t]+', text[j]):
+        break
+    out.append(text[j])
+print("\\n".join(out).strip())
+PY
+)"
+    if [[ -z "${block//[[:space:]]/}" ]]; then
+      echo "❌ SPEC INVALID (empty section): $key"
+      fail_body=1
+    fi
+  done
+
+  if [[ "$fail_body" -eq 1 ]]; then
+    echo
+    echo "STOP: SPEC sections must not be empty."
+    exit 1
+  fi
+
+  echo "✅ SPEC VALID (structure-only): $file"
 }
 
 case "$cmd" in
-  help|-h|--help)
-    print_help
-    ;;
   verify)
-    echo "🔍 verify: TODO (bootstrap) — implement SPEC parsing + contract checks"
-    echo "Hint: require explicit fields: scope, objective, inputs, constraints, expected_outcome"
+    shift
+    verify_spec "${1:-}"
     ;;
   snapshot)
-    echo "📸 snapshot: TODO (bootstrap) — implement immutable snapshot + hash + metadata"
+    echo "🧊 snapshot: placeholder (bootstrap)."
     ;;
   audit)
-    echo "🧪 audit: TODO (bootstrap) — implement outcome verification against SPEC"
+    echo "🧪 audit: placeholder (bootstrap)."
+    ;;
+  help|--help|-h|"")
+    print_help
     ;;
   *)
-    echo "❌ Unknown command: $cmd"
+    echo "ERROR: Unknown command: $cmd"
+    echo
     print_help
-    exit 1
+    exit 2
     ;;
 esac
