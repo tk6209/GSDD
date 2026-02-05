@@ -1,0 +1,22 @@
+{
+  "ledger_version": "1.0",
+
+  "execution_id": "uuid-v4",
+  "spec_id": "string",
+
+  "project": "string",
+  "snapshot_id": "string",
+
+  "executor": "string",
+  "execution_fingerprint": "sha1",
+
+  "context_hash": "sha1",
+  "snapshot_signature": "sha1",
+
+  "release_tag": "string | none",
+
+  "outcome": "SUCCESS | ABORTED | FAILED",
+  "termination_status": "FINAL",
+
+  "created_at": "RFC3339-UTC"
+}

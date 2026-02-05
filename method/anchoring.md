@@ -1,0 +1,1 @@
+Absence of anchoring does not invalidate a snapshot.

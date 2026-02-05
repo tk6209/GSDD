@@ -1,0 +1,20 @@
+############################################
+# GSDD — Secure Git Ignore
+############################################
+
+# ------------------------------------------
+# Execution Artifacts (Snapshots)
+# ------------------------------------------
+# Generated execution snapshots must NOT be committed
+*_v*.md
+*_snapshot*.md
+*_snapshot/
+.snapshots/
+.snapshots/**
+
+# ------------------------------------------
+# Attestation & Integrity Artifacts
+# ------------------------------------------
+# Optional enterprise attestations (HMAC, signatures, proofs)
+*.attestation
+*.signature
