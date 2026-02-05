@@ -18,3 +18,5 @@
 # Optional enterprise attestations (HMAC, signatures, proofs)
 *.attestation
 *.signature
+.DS_Store
+.gsdd/state.json
