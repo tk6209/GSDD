@@ -1,0 +1,19 @@
+{
+  "name": "@tk6209/gsdd-cli",
+  "version": "0.1.0-experimental.0",
+  "description": "Experimental CLI for Governed Spec-Driven Development (GSDD).",
+  "type": "module",
+  "bin": {
+    "gsdd": "bin/gsdd.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "tag": "experimental"
+  }
+}
